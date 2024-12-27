@@ -265,8 +265,8 @@
                 startY = Math.random() * (window.innerHeight * 0.5); // Only top half
             }
             
-            // Random end position in middle-bottom area
-            endX = window.innerWidth * (0.3 + Math.random() * 0.4); // between 30% and 70% of width
+            // End position on opposite side of screen
+            endX = startFromRight ? -80 : window.innerWidth + 80; // Opposite side from start
             endY = window.innerHeight * (0.8 + Math.random() * 0.4); // between 80% and 120% of height
             
             // Calculate angle in degrees based on path
