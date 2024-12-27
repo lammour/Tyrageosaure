@@ -135,12 +135,8 @@
             filter: drop-shadow(0 0 15px #ff6b6b);
         }
 
-        .meteor-left {
-            animation: meteorFallLeft 4s linear;
-        }
-
-        .meteor-right {
-            animation: meteorFallRight 4s linear;
+        .meteor {
+            animation: meteorFall 4s linear;
         }
 
         .meteor svg {
@@ -148,30 +144,16 @@
             height: 100%;
         }
 
-
-        @keyframes meteorFallLeft {
+        @keyframes meteorFall {
             from {
-                left: -80px;
-                top: -80px;
-                transform: rotate(25deg);
+                left: var(--start-x);
+                top: var(--start-y);
+                transform: rotate(var(--rotation));
             }
             to {
-                left: 60%;
-                top: 120%;
-                transform: rotate(25deg);
-            }
-        }
-
-        @keyframes meteorFallRight {
-            from {
-                left: 120%;
-                top: -80px;
-                transform: rotate(-25deg);
-            }
-            to {
-                left: 40%;
-                top: 120%;
-                transform: rotate(-25deg);
+                left: var(--end-x);
+                top: var(--end-y);
+                transform: rotate(var(--rotation));
             }
         }
 
@@ -272,7 +254,23 @@
         function createMeteor() {
             const meteor = document.createElement('div');
             const startFromRight = Math.random() > 0.5;
-            meteor.className = `meteor ${startFromRight ? 'meteor-right' : 'meteor-left'}`;
+            const startX = startFromRight ? window.innerWidth + 80 : -80;
+            const endX = startFromRight ? window.innerWidth * 0.4 : window.innerWidth * 0.6;
+            const startY = -80;
+            const endY = window.innerHeight * 1.2;
+            
+            // Calculate angle in degrees based on path
+            const deltaX = endX - startX;
+            const deltaY = endY - startY;
+            const pathAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+            const rotationAngle = startFromRight ? pathAngle + 180 : pathAngle;
+            
+            meteor.className = 'meteor';
+            meteor.style.setProperty('--start-x', `${startX}px`);
+            meteor.style.setProperty('--end-x', `${endX}px`);
+            meteor.style.setProperty('--start-y', `${startY}px`);
+            meteor.style.setProperty('--end-y', `${endY}px`);
+            meteor.style.setProperty('--rotation', `${rotationAngle}deg`);
             meteor.innerHTML = `<svg height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 511.989 511.989" xml:space="preserve">
                 <g>
                     <path style="fill:#FC6E51;" d="M465.132,153.524c-30.234-30.218-70.405-46.858-113.14-46.858c-5.03,0-20.311,0-121.121,32.515 c-49.155,15.859-95.256,31.921-95.717,32.077c-4.305,1.5-7.18,5.578-7.156,10.125c0.023,4.563,2.938,8.594,7.25,10.062 l34.89,11.781L7.345,256.522c-4.367,1.438-7.328,5.5-7.344,10.094s2.906,8.694,7.266,10.163l167.668,56.437l-62.295,30.53 c-4.102,2-6.469,6.406-5.891,10.938s3.977,8.187,8.445,9.093c21.476,4.406,210.535,42.875,236.798,42.875 c42.734,0,82.905-16.625,113.14-46.843c30.218-30.219,46.857-70.405,46.857-113.146 C511.989,223.93,495.349,183.743,465.132,153.524z"/>
