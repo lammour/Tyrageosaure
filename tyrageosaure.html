@@ -46,7 +46,7 @@
         <!-- La liste des dinosaures sera ajoutée ici -->
     </div>
 
-    <button onclick="faireTirage()">Faire le tirage</button>
+    <button onclick="faireTyrage()">Faire le tyrage</button>
 
     <div id="result"></div>
 
@@ -93,7 +93,7 @@
             return array[Math.floor(Math.random() * array.length)];
         }
 
-        function faireTirage() {
+        function faireTyrage() {
             if (participants.length < 2) {
                 alert('Il faut au moins 2 dinosaures!');
                 return;
