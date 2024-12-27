@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Santa - Tirage au Sort</title>
+    <title>Tyrageosaure</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,15 +35,15 @@
     </style>
 </head>
 <body>
-    <h1>🎄 Secret Santa - Tirage au Sort 🎁</h1>
+    <h1>🎄 Tyrageosaure 🦖</h1>
     
     <div>
-        <input type="text" id="newParticipant" placeholder="Nom du participant">
+        <input type="text" id="newParticipant" placeholder="Nom du dinosaure">
         <button onclick="addParticipant()">Ajouter</button>
     </div>
 
     <div class="participant-list" id="participantList">
-        <!-- La liste des participants sera ajoutée ici -->
+        <!-- La liste des dinosaures sera ajoutée ici -->
     </div>
 
     <button onclick="faireTirage()">Faire le tirage</button>
@@ -81,7 +81,7 @@
 
         function faireTirage() {
             if (participants.length < 2) {
-                alert('Il faut au moins 2 participants!');
+                alert('Il faut au moins 2 dinosaures!');
                 return;
             }
 
