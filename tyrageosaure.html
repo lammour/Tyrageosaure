@@ -253,17 +253,34 @@
         // Create meteors periodically
         function createMeteor() {
             const meteor = document.createElement('div');
-            const startFromRight = Math.random() > 0.5;
-            const startX = startFromRight ? window.innerWidth + 80 : -80;
-            const endX = startFromRight ? window.innerWidth * 0.4 : window.innerWidth * 0.6;
-            const startY = -80;
-            const endY = window.innerHeight * 1.2;
+            // Randomly choose which edge to start from (top, right, left)
+            const edge = Math.floor(Math.random() * 3);
+            let startX, startY, endX, endY;
+            
+            switch(edge) {
+                case 0: // top
+                    startX = Math.random() * window.innerWidth;
+                    startY = -80;
+                    break;
+                case 1: // right
+                    startX = window.innerWidth + 80;
+                    startY = Math.random() * window.innerHeight * 0.7;
+                    break;
+                case 2: // left
+                    startX = -80;
+                    startY = Math.random() * window.innerHeight * 0.7;
+                    break;
+            }
+            
+            // Random end position in middle-bottom area
+            endX = window.innerWidth * (0.3 + Math.random() * 0.4); // between 30% and 70% of width
+            endY = window.innerHeight * (0.8 + Math.random() * 0.4); // between 80% and 120% of height
             
             // Calculate angle in degrees based on path
             const deltaX = endX - startX;
             const deltaY = endY - startY;
             const pathAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-            const rotationAngle = startFromRight ? pathAngle : pathAngle;
+            const rotationAngle = pathAngle + (startX > window.innerWidth/2 ? 30 : 0);
             
             meteor.className = 'meteor';
             meteor.style.setProperty('--start-x', `${startX}px`);
