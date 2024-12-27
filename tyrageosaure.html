@@ -192,8 +192,9 @@
             const delay = Math.random() * 2;
             const windStrength = Math.random() * 30 - 15;
 
-            snowflake.style.transform = `scale(${size/8})`;
             snowflake.style.left = `${startingLeft}px`;
+            snowflake.querySelector('svg').style.width = `${size}px`;
+            snowflake.querySelector('svg').style.height = `${size}px`;
             snowflake.style.animationDuration = `${timeToFall}s`;
             snowflake.style.animationDelay = `${delay}s`;
 
