@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from code import tyrageosaure
+from tyrageosaure import tyrageosaure
 
 app = Flask(__name__)
 
