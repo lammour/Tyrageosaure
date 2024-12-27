@@ -263,7 +263,7 @@
             const deltaX = endX - startX;
             const deltaY = endY - startY;
             const pathAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-            const rotationAngle = startFromRight ? pathAngle + 30 : pathAngle;
+            const rotationAngle = startFromRight ? pathAngle : pathAngle;
             
             meteor.className = 'meteor';
             meteor.style.setProperty('--start-x', `${startX}px`);
