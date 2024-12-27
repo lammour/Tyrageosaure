@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tyrageosaure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .participant-list {
+            margin: 20px 0;
+        }
+        .participant {
+            margin: 5px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎄 Tyrageosaure 🦖</h1>
+    
+    <div>
+        <input type="text" id="newParticipant" placeholder="Nom du dinosaure">
+        <button onclick="addParticipant()">Ajouter</button>
+    </div>
+
+    <div class="participant-list" id="participantList">
+        <!-- La liste des dinosaures sera ajoutée ici -->
+    </div>
+
+    <button onclick="faireTirage()">Faire le tirage</button>
+
+    <div id="result"></div>
+
+    <script>
+        let participants = [];
+        const emojis = ['🎄', '🎁', '🦌' , '⛄'];
+        const adjectifs = ['surprenant', 'magnifique', 'somptueux', 'admirable', 'brillant', 'remarquable', 'flamboyant', 'étonnant'];
+
+        function addParticipant() {
+            const input = document.getElementById('newParticipant');
+            const name = input.value.trim();
+            
+            if (name) {
+                participants.push(name);
+                updateParticipantList();
+                input.value = '';
+            }
+        }
+
+        function removeParticipant(index) {
+            participants.splice(index, 1);
+            updateParticipantList();
+        }
+
+        function updateParticipantList() {
+            const list = document.getElementById('participantList');
+            list.innerHTML = participants.map((name, index) => `
+                <div class="participant">
+                    ${name} 
+                    <button onclick="removeParticipant(${index})">Supprimer</button>
+                </div>
+            `).join('');
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function randomChoice(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function faireTirage() {
+            if (participants.length < 2) {
+                alert('Il faut au moins 2 dinosaures!');
+                return;
+            }
+
+            const dinos = [...participants];
+            shuffleArray(dinos);
+            
+            let result = `${dinos[0]} offre un ${randomChoice(adjectifs)} tyracadeau à `;
+            for (let i = 1; i < dinos.length; i++) {
+                result += `${dinos[i]} ${randomChoice(emojis)} !\n${dinos[i]} offre un ${randomChoice(adjectifs)} tyracadeau à `;
+            }
+            result += `${dinos[0]} ${randomChoice(emojis)} !`;
+            
+            document.getElementById('result').textContent = result;
+        }
+    </script>
+</body>
+</html>
