@@ -129,12 +129,12 @@
 
         .meteor {
             position: fixed;
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             pointer-events: none;
             animation: meteorFall 4s linear;
-            transform: rotate(45deg);
-            filter: drop-shadow(0 0 10px #ff6b6b);
+            transform: rotate(25deg);
+            filter: drop-shadow(0 0 15px #ff6b6b);
         }
 
         .meteor svg {
@@ -145,12 +145,14 @@
 
         @keyframes meteorFall {
             from {
-                left: -50px;
-                top: 20%;
+                left: -80px;
+                top: 10%;
+                transform: rotate(25deg);
             }
             to {
                 left: 120%;
-                top: 40%;
+                top: 60%;
+                transform: rotate(25deg);
             }
         }
 
