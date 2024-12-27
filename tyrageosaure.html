@@ -253,23 +253,16 @@
         // Create meteors periodically
         function createMeteor() {
             const meteor = document.createElement('div');
-            // Randomly choose which edge to start from (top, right, left)
-            const edge = Math.floor(Math.random() * 3);
-            let startX, startY, endX, endY;
+            // Randomly choose start position along top half edges
+            const startFromRight = Math.random() > 0.5;
+            let startX, startY;
             
-            switch(edge) {
-                case 0: // top
-                    startX = Math.random() * window.innerWidth;
-                    startY = -80;
-                    break;
-                case 1: // right
-                    startX = window.innerWidth + 80;
-                    startY = Math.random() * window.innerHeight * 0.7;
-                    break;
-                case 2: // left
-                    startX = -80;
-                    startY = Math.random() * window.innerHeight * 0.7;
-                    break;
+            if (startFromRight) {
+                startX = window.innerWidth + 80;
+                startY = Math.random() * (window.innerHeight * 0.5); // Only top half
+            } else {
+                startX = -80;
+                startY = Math.random() * (window.innerHeight * 0.5); // Only top half
             }
             
             // Random end position in middle-bottom area
@@ -280,7 +273,8 @@
             const deltaX = endX - startX;
             const deltaY = endY - startY;
             const pathAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-            const rotationAngle = pathAngle + (startX > window.innerWidth/2 ? 30 : 0);
+            // Use the same angle for both path and SVG rotation
+            const rotationAngle = pathAngle;
             
             meteor.className = 'meteor';
             meteor.style.setProperty('--start-x', `${startX}px`);
