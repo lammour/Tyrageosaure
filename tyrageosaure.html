@@ -127,6 +127,36 @@
             fill: white;
         }
 
+        .meteor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            animation: meteorFall 2s linear;
+            transform: rotate(45deg);
+            filter: drop-shadow(0 0 10px #ff6b6b);
+        }
+
+        .meteor svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .meteor svg path {
+            fill: #ff6b6b;
+        }
+
+        @keyframes meteorFall {
+            from {
+                left: -50px;
+                top: 20%;
+            }
+            to {
+                left: 120%;
+                top: 40%;
+            }
+        }
+
         @keyframes fall {
             0% {
                 transform: translateY(0) translateX(0) rotate(0deg);
@@ -219,6 +249,27 @@
         }
 
         generateSnow();
+
+        // Create meteors periodically
+        function createMeteor() {
+            const meteor = document.createElement('div');
+            meteor.className = 'meteor';
+            meteor.innerHTML = `<svg viewBox="0 0 511.989 511.989" xmlns="http://www.w3.org/2000/svg">
+                <path d="M465.132,153.524c-30.234-30.218-70.405-46.858-113.14-46.858c-5.03,0-20.311,0-121.121,32.515 c-49.155,15.859-95.256,31.921-95.717,32.077c-4.305,1.5-7.18,5.578-7.156,10.125c0.023,4.563,2.938,8.594,7.25,10.062 l34.89,11.781L7.345,256.522c-4.367,1.438-7.328,5.5-7.344,10.094s2.906,8.694,7.266,10.163l167.668,56.437l-62.295,30.53 c-4.102,2-6.469,6.406-5.891,10.938s3.977,8.187,8.445,9.093c21.476,4.406,210.535,42.875,236.798,42.875 c42.734,0,82.905-16.625,113.14-46.843c30.218-30.219,46.857-70.405,46.857-113.146 C511.989,223.93,495.349,183.743,465.132,153.524z"/>
+            </svg>`;
+            
+            snowContainer.appendChild(meteor);
+
+            meteor.addEventListener('animationend', () => {
+                meteor.remove();
+            });
+
+            // Schedule next meteor with random delay (around 20 seconds average)
+            setTimeout(createMeteor, Math.random() * 10000 + 15000);
+        }
+
+        // Start meteor generation
+        setTimeout(createMeteor, Math.random() * 5000 + 2000);
 
         let participants = [];
         const emojis = ['🎄', '🎁', '🦌', '⛄', '🎅', '✨', '❄️', '🔔'];
