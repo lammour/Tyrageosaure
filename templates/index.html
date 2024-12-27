@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Santa - Tirage au Sort</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .participant-list {
+            margin: 20px 0;
+        }
+        .participant {
+            margin: 5px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎄 Secret Santa - Tirage au Sort 🎁</h1>
+    
+    <div>
+        <input type="text" id="newParticipant" placeholder="Nom du participant">
+        <button onclick="addParticipant()">Ajouter</button>
+    </div>
+
+    <div class="participant-list" id="participantList">
+        <!-- La liste des participants sera ajoutée ici -->
+    </div>
+
+    <button onclick="faireTirage()">Faire le tirage</button>
+
+    <div id="result"></div>
+
+    <script>
+        let participants = [];
+
+        function addParticipant() {
+            const input = document.getElementById('newParticipant');
+            const name = input.value.trim();
+            
+            if (name) {
+                participants.push(name);
+                updateParticipantList();
+                input.value = '';
+            }
+        }
+
+        function removeParticipant(index) {
+            participants.splice(index, 1);
+            updateParticipantList();
+        }
+
+        function updateParticipantList() {
+            const list = document.getElementById('participantList');
+            list.innerHTML = participants.map((name, index) => `
+                <div class="participant">
+                    ${name} 
+                    <button onclick="removeParticipant(${index})">Supprimer</button>
+                </div>
+            `).join('');
+        }
+
+        function faireTirage() {
+            if (participants.length < 2) {
+                alert('Il faut au moins 2 participants!');
+                return;
+            }
+
+            fetch('/tirage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ participants: participants })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('result').textContent = data.result;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Une erreur est survenue');
+            });
+        }
+    </script>
+</body>
+</html>

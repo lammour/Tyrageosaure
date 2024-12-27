@@ -12,9 +12,3 @@ def tyrageosaure(dinos):
   result += f"{dinos[0]} {random.choice(emojis)} !"
   return result
 
-tyras = ["Gabausore", "Cléacératops", "Vincentimétrus",
-         "Marionex", "Chemamosaure", "Doritosaure", "Volbecktus", "Yourassic",
-         "Archaeopérette", "Godziluis", "Le Viktor", "FedEx", "Dominator",
-         "Iva na", "Antoine", "Ugo", "Maud"]
-tyrage = tyrageosaure(tyras)
-print(tyrage)
