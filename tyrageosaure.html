@@ -99,6 +99,31 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .snowflake {
+            position: fixed;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.8;
+            animation: fall linear;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
         .main-container {
             background: rgba(255, 255, 255, 0.05);
             padding: 30px;
@@ -110,6 +135,7 @@
     </style>
 </head>
 <body>
+    <div class="snow-container"></div>
     <h1>🎄 Tyrageosaure 🦖</h1>
     
     <div class="main-container">
@@ -126,6 +152,50 @@
     <div id="result"></div>
 
     <script>
+        // Snow effect
+        const snowContainer = document.querySelector('.snow-container');
+        const snowflakes = [];
+        const maxSnowflakes = 50;
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            
+            // Random properties
+            const size = Math.random() * 4 + 2;
+            const startingLeft = Math.random() * window.innerWidth;
+            const timeToFall = Math.random() * 3 + 2;
+            const delay = Math.random() * 2;
+
+            snowflake.style.width = `${size}px`;
+            snowflake.style.height = `${size}px`;
+            snowflake.style.left = `${startingLeft}px`;
+            snowflake.style.animationDuration = `${timeToFall}s`;
+            snowflake.style.animationDelay = `${delay}s`;
+
+            snowContainer.appendChild(snowflake);
+            snowflakes.push(snowflake);
+
+            // Remove snowflake after animation
+            snowflake.addEventListener('animationend', () => {
+                snowflake.remove();
+                const index = snowflakes.indexOf(snowflake);
+                if (index > -1) {
+                    snowflakes.splice(index, 1);
+                }
+            });
+        }
+
+        // Create snowflakes periodically
+        function generateSnow() {
+            if (snowflakes.length < maxSnowflakes) {
+                createSnowflake();
+            }
+            setTimeout(generateSnow, 200);
+        }
+
+        generateSnow();
+
         let participants = [];
         const emojis = ['🎄', '🎁', '🦌', '⛄', '🎅', '✨', '❄️', '🔔'];
         const adjectifs = ['surprenant', 'magnifique', 'somptueux', 'admirable', 'brillant', 'remarquable', 'flamboyant', 'étonnant', 'féérique', 'magique', 'enchanté', 'légendaire', 'mythique'];
